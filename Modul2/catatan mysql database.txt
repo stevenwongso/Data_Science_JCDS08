@@ -1,0 +1,521 @@
+Microsoft Windows [Version 10.0.17763.1039]
+(c) 2018 Microsoft Corporation. All rights reserved.
+
+C:\Users\Elsa>cd program files
+The system cannot find the path specified.
+
+C:\Users\Elsa>cd Program Files
+The system cannot find the path specified.
+
+C:\Users\Elsa>cd ..
+
+C:\Users>cd..
+
+C:\>cd Program Files
+
+C:\Program Files>cd MySQL
+
+C:\Program Files\MySQL>cd MySQL Server 8.0\bin
+
+C:\Program Files\MySQL\MySQL Server 8.0\bin>mysql
+ERROR 1045 (28000): Access denied for user 'ODBC'@'localhost' (using password: NO)
+
+C:\Program Files\MySQL\MySQL Server 8.0\bin>mysql -u elsalevina -p
+Enter password: *************
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 24
+Server version: 8.0.19 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+6 rows in set (0.00 sec)
+
+mysql> create database ultraman;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> show databasesa
+    -> cls
+    -> ^Z
+Bye
+
+C:\Program Files\MySQL\MySQL Server 8.0\bin>mysql -u elsalevina -p
+Enter password: *************
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 25
+Server version: 8.0.19 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases
+    -> ^Z
+Bye
+
+C:\Program Files\MySQL\MySQL Server 8.0\bin>mysql -u elsalevina -p
+Enter password: *************
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 26
+Server version: 8.0.19 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| ultraman           |
+| world              |
++--------------------+
+7 rows in set (0.00 sec)
+
+mysql> use ultraman;
+Database changed
+mysql> select databases()
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'databases()' at line 1
+mysql> select database();
++------------+
+| database() |
++------------+
+| ultraman   |
++------------+
+1 row in set (0.00 sec)
+
+mysql> drop database ultraman;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select database();
++------------+
+| database() |
++------------+
+| NULL       |
++------------+
+1 row in set (0.00 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+6 rows in set (0.00 sec)
+
+mysql> cls
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'cls' at line 1
+mysql> create database pokemon;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| pokemon            |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+7 rows in set (0.00 sec)
+
+mysql> create database if no exist pokemon;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'no exist pokemon' at line 1
+mysql> create database if not exist pokemon;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'exist pokemon' at line 1
+mysql> use pokemon;
+Database changed
+mysql> select database();
++------------+
+| database() |
++------------+
+| pokemon    |
++------------+
+1 row in set (0.00 sec)
+
+mysql> show tables;
+Empty set (0.01 sec)
+
+mysql> create table pokemon(
+    -> no int,
+    -> nama varchar(100),
+    -> usia tinyint
+    -> );
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> show tables;
++-------------------+
+| Tables_in_pokemon |
++-------------------+
+| pokemon           |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql> describe pokemon;
++-------+--------------+------+-----+---------+-------+
+| Field | Type         | Null | Key | Default | Extra |
++-------+--------------+------+-----+---------+-------+
+| no    | int          | YES  |     | NULL    |       |
+| nama  | varchar(100) | YES  |     | NULL    |       |
+| usia  | tinyint      | YES  |     | NULL    |       |
++-------+--------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select * from pokemon;
+Empty set (0.00 sec)
+
+mysql> insert into pokemon values(
+    -> 1,'Andi', 3);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from pokemonl
+    -> ;
+ERROR 1146 (42S02): Table 'pokemon.pokemonl' doesn't exist
+mysql> select * from pokemon;
++------+------+------+
+| no   | nama | usia |
++------+------+------+
+|    1 | Andi |    3 |
++------+------+------+
+1 row in set (0.00 sec)
+
+mysql> insert into pokemon values
+    -> (2, 'Budi', 5)
+    -> ;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into pokemon values
+    -> (3, 'Caca', 2),
+    -> (4, 'Deni', 9);
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from pokemon;
++------+------+------+
+| no   | nama | usia |
++------+------+------+
+|    1 | Andi |    3 |
+|    2 | Budi |    5 |
+|    3 | Caca |    2 |
+|    4 | Deni |    9 |
++------+------+------+
+4 rows in set (0.00 sec)
+
+mysql> describe pokemon;
++-------+--------------+------+-----+---------+-------+
+| Field | Type         | Null | Key | Default | Extra |
++-------+--------------+------+-----+---------+-------+
+| no    | int          | YES  |     | NULL    |       |
+| nama  | varchar(100) | YES  |     | NULL    |       |
+| usia  | tinyint      | YES  |     | NULL    |       |
++-------+--------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into pokemon values(12345678910, 'x', 12345);
+ERROR 1264 (22003): Out of range value for column 'no' at row 1
+mysql> insert into pokemon values(,,);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',,)' at line 1
+mysql> insert into pokemon values(null , null, 2);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from pokemon;
++------+------+------+
+| no   | nama | usia |
++------+------+------+
+|    1 | Andi |    3 |
+|    2 | Budi |    5 |
+|    3 | Caca |    2 |
+|    4 | Deni |    9 |
+| NULL | NULL |    2 |
++------+------+------+
+5 rows in set (0.00 sec)
+
+mysql> insert into pokemon (nama) values ('Pikachu');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from pokemon;
++------+---------+------+
+| no   | nama    | usia |
++------+---------+------+
+|    1 | Andi    |    3 |
+|    2 | Budi    |    5 |
+|    3 | Caca    |    2 |
+|    4 | Deni    |    9 |
+| NULL | NULL    |    2 |
+| NULL | Pikachu | NULL |
++------+---------+------+
+6 rows in set (0.00 sec)
+
+mysql> insert into pokemon (usia, nama, no) values(20, 'hani', 5);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from pokemon;
++------+---------+------+
+| no   | nama    | usia |
++------+---------+------+
+|    1 | Andi    |    3 |
+|    2 | Budi    |    5 |
+|    3 | Caca    |    2 |
+|    4 | Deni    |    9 |
+| NULL | NULL    |    2 |
+| NULL | Pikachu | NULL |
+|    5 | hani    |   20 |
++------+---------+------+
+7 rows in set (0.00 sec)
+
+mysql> select nama from pokemon;
++---------+
+| nama    |
++---------+
+| Andi    |
+| Budi    |
+| Caca    |
+| Deni    |
+| NULL    |
+| Pikachu |
+| hani    |
++---------+
+7 rows in set (0.00 sec)
+
+mysql> select usia, nama from pokemon;
++------+---------+
+| usia | nama    |
++------+---------+
+|    3 | Andi    |
+|    5 | Budi    |
+|    2 | Caca    |
+|    9 | Deni    |
+|    2 | NULL    |
+| NULL | Pikachu |
+|   20 | hani    |
++------+---------+
+7 rows in set (0.00 sec)
+
+mysql> create table digimon(
+    -> no int not null auto_increment,
+    -> nama varchar(100) default 'Anonimon',
+    -> gender enum('male','female')
+    -> ,
+    -> kota set('Jakarta','Bandung','Surabaya'),
+    -> primary key (no)
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> decribe digimon
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'decribe digimon' at line 1
+mysql> describe digimon;
++--------+-------------------------------------+------+-----+----------+----------------+
+| Field  | Type                                | Null | Key | Default  | Extra          |
++--------+-------------------------------------+------+-----+----------+----------------+
+| no     | int                                 | NO   | PRI | NULL     | auto_increment |
+| nama   | varchar(100)                        | YES  |     | Anonimon |                |
+| gender | enum('male','female')               | YES  |     | NULL     |                |
+| kota   | set('Jakarta','Bandung','Surabaya') | YES  |     | NULL     |                |
++--------+-------------------------------------+------+-----+----------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> insert into digimon (nama, gender, kota) values
+    -> ('Andi', 'male', 'Jakarta');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from digimon;
++----+------+--------+---------+
+| no | nama | gender | kota    |
++----+------+--------+---------+
+|  1 | Andi | male   | Jakarta |
++----+------+--------+---------+
+1 row in set (0.00 sec)
+
+mysql> insert into digimon (nama, gender, kota) values
+    ->
+    -> insert into digimon (nama, gender, kota) values
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'insert into digimon (nama, gender, kota) values' at line 3
+mysql> insert into digimon (nama, gender, kota) values
+    -> ('Budi', 'male', ('Jakarta', 'Bandung'));
+ERROR 1241 (21000): Operand should contain 1 column(s)
+mysql> insert into digimon kota values
+    -> ('Jakarta','Bandung');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'kota values
+('Jakarta','Bandung')' at line 1
+mysql> describe digimon;
++--------+-------------------------------------+------+-----+----------+----------------+
+| Field  | Type                                | Null | Key | Default  | Extra          |
++--------+-------------------------------------+------+-----+----------+----------------+
+| no     | int                                 | NO   | PRI | NULL     | auto_increment |
+| nama   | varchar(100)                        | YES  |     | Anonimon |                |
+| gender | enum('male','female')               | YES  |     | NULL     |                |
+| kota   | set('Jakarta','Bandung','Surabaya') | YES  |     | NULL     |                |
++--------+-------------------------------------+------+-----+----------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> insert into digimon kota values
+    -> ('Jakarta,Bandung')
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'kota values
+('Jakarta,Bandung')' at line 1
+mysql> insert into digimon kota values
+    -> insert into digimon (kota) values
+    -> ('Jakarta,Bandung');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'kota values
+insert into digimon (kota) values
+('Jakarta,Bandung')' at line 1
+mysql> insert into digimon (kota) values ('Jakarta,Bandung');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from digimon;
++----+----------+--------+-----------------+
+| no | nama     | gender | kota            |
++----+----------+--------+-----------------+
+|  1 | Andi     | male   | Jakarta         |
+|  2 | Anonimon | NULL   | Jakarta,Bandung |
++----+----------+--------+-----------------+
+2 rows in set (0.00 sec)
+
+mysql> insert into digimon (kota) values('Jakarta,Bandung');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from digimon;
++----+----------+--------+-----------------+
+| no | nama     | gender | kota            |
++----+----------+--------+-----------------+
+|  1 | Andi     | male   | Jakarta         |
+|  2 | Anonimon | NULL   | Jakarta,Bandung |
+|  3 | Anonimon | NULL   | Jakarta,Bandung |
++----+----------+--------+-----------------+
+3 rows in set (0.00 sec)
+
+mysql> insert into digimon (kota) values
+    -> ('Jakarta,Surabaya');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from digimon;
++----+----------+--------+------------------+
+| no | nama     | gender | kota             |
++----+----------+--------+------------------+
+|  1 | Andi     | male   | Jakarta          |
+|  2 | Anonimon | NULL   | Jakarta,Bandung  |
+|  3 | Anonimon | NULL   | Jakarta,Bandung  |
+|  4 | Anonimon | NULL   | Jakarta,Surabaya |
++----+----------+--------+------------------+
+4 rows in set (0.00 sec)
+
+mysql> insert into digimon (gender) values ('female');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from digimon;
++----+----------+--------+------------------+
+| no | nama     | gender | kota             |
++----+----------+--------+------------------+
+|  1 | Andi     | male   | Jakarta          |
+|  2 | Anonimon | NULL   | Jakarta,Bandung  |
+|  3 | Anonimon | NULL   | Jakarta,Bandung  |
+|  4 | Anonimon | NULL   | Jakarta,Surabaya |
+|  5 | Anonimon | female | NULL             |
++----+----------+--------+------------------+
+5 rows in set (0.00 sec)
+
+mysql> insert into digimon (nama, gender, kota) values
+    -> ('Nani','female','Bandung,Jakarta,Surabaya');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * from digimon;
++----+----------+--------+--------------------------+
+| no | nama     | gender | kota                     |
++----+----------+--------+--------------------------+
+|  1 | Andi     | male   | Jakarta                  |
+|  2 | Anonimon | NULL   | Jakarta,Bandung          |
+|  3 | Anonimon | NULL   | Jakarta,Bandung          |
+|  4 | Anonimon | NULL   | Jakarta,Surabaya         |
+|  5 | Anonimon | female | NULL                     |
+|  6 | Nani     | female | Jakarta,Bandung,Surabaya |
++----+----------+--------+--------------------------+
+6 rows in set (0.00 sec)
+
+mysql> insert into digimon (no, nama, gender, kota) values:
+    -> ^C
+mysql> insert into digimon (no, nama, gender, kota) values
+    -> (7, 'Caca', 'female','Jakarta');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from digimon;
++----+----------+--------+--------------------------+
+| no | nama     | gender | kota                     |
++----+----------+--------+--------------------------+
+|  1 | Andi     | male   | Jakarta                  |
+|  2 | Anonimon | NULL   | Jakarta,Bandung          |
+|  3 | Anonimon | NULL   | Jakarta,Bandung          |
+|  4 | Anonimon | NULL   | Jakarta,Surabaya         |
+|  5 | Anonimon | female | NULL                     |
+|  6 | Nani     | female | Jakarta,Bandung,Surabaya |
+|  7 | Caca     | female | Jakarta                  |
++----+----------+--------+--------------------------+
+7 rows in set (0.00 sec)
+
+mysql> insert into digimon (no, nama, gender, kota) values
+    -> (10, 'Gina', 'female','Jakarta');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from digimon;
++----+----------+--------+--------------------------+
+| no | nama     | gender | kota                     |
++----+----------+--------+--------------------------+
+|  1 | Andi     | male   | Jakarta                  |
+|  2 | Anonimon | NULL   | Jakarta,Bandung          |
+|  3 | Anonimon | NULL   | Jakarta,Bandung          |
+|  4 | Anonimon | NULL   | Jakarta,Surabaya         |
+|  5 | Anonimon | female | NULL                     |
+|  6 | Nani     | female | Jakarta,Bandung,Surabaya |
+|  7 | Caca     | female | Jakarta                  |
+| 10 | Gina     | female | Jakarta                  |
++----+----------+--------+--------------------------+
+8 rows in set (0.00 sec)
+
+mysql>
+
+
+
+
+
+
+

@@ -1,0 +1,1012 @@
+Catatan 25 Feb 2020
+
+Download MongoDB
+mongodb.com
+tab software > community server > pilih OS > download
+
+install > pilih complete install > Run Service  as Network Server (klik)
+> install MongoDB Compass (centang) > install
+
+buat folder data, didalamnya buat folder db (lokasi bebas)
+
+buka command prompt
+masuk ke lokasi mongodb (cara sama spt mysql)
+cd C:\Program Files\MongoDB\Server\4.2\bin
+
+aktivasi mongodb:
+mongod -dbpath C:\data\db
+(sesuai lokasi folder db yang kita buat tadi)
+(dilakukan 1x saja. setelah itu cukup ketik mongod kalau mau kerja)
+cek, pastikan tidak ada error.
+
+Jika tidak ada error -> buka command prompt baru > masuk ke lokasi mongodb (seperti mysql)
+ketik di command: mongo
+(bisa langsung kerja...)
+
+QUERY MONGODB
+C:\Users\User>cd C:\Program Files\MongoDB\Server\4.2\bin
+
+C:\Program Files\MongoDB\Server\4.2\bin>mongo
+
+> show dbs
+admin   0.000GB
+config  0.000GB
+local   0.000GB
+
+> db
+test
+
+> show databases
+admin   0.000GB
+config  0.000GB
+local   0.000GB
+
+> use ptxyz
+switched to db ptxyz
+
+> db
+ptxyz
+
+> show dbs
+admin   0.000GB
+config  0.000GB
+local   0.000GB
+
+> db.dropDatabase()
+{ "ok" : 1 }
+
+> db
+ptxyz
+
+> use ptxyz
+switched to db ptxyz
+
+> db.createUser(
+... {user: "novita", pwd: "1234",
+... roles: ["readWrite","dbAdmin"]}
+... )
+Successfully added user: { "user" : "novita", "roles" : [ "readWrite", "dbAdmin" ] }
+
+> db.createCollection ('karyawan')
+{ "ok" : 1 }
+
+> show collections
+karyawan
+
+> db.karyawan.insert({nama: "Andi"});
+WriteResult({ "nInserted" : 1 })
+
+> db.karyawan.insert({nama: "Budi"})
+WriteResult({ "nInserted" : 1 })
+
+> db.karyawan.find()
+{ "_id" : ObjectId("5e5490be5398e042f570e80c"), "nama" : "Andi" }
+{ "_id" : ObjectId("5e5490ed5398e042f570e80d"), "nama" : "Budi" }
+
+> db.karyawan.find().pretty()
+{ "_id" : ObjectId("5e5490be5398e042f570e80c"), "nama" : "Andi" }
+{ "_id" : ObjectId("5e5490ed5398e042f570e80d"), "nama" : "Budi" }
+
+> db.karyawan.insert({nama: "Caca",kota: "Jakarta"})
+WriteResult({ "nInserted" : 1 })
+
+> db.karyawan.find().pretty()
+{ "_id" : ObjectId("5e5490be5398e042f570e80c"), "nama" : "Andi" }
+{ "_id" : ObjectId("5e5490ed5398e042f570e80d"), "nama" : "Budi" }
+{
+        "_id" : ObjectId("5e5491a05398e042f570e80e"),
+        "nama" : "Caca",
+        "kota" : "Jakarta"
+}
+
+> db.karyawan.insert([
+... {nama: 'Deni', usia: 23, kota: 'Bandung'},
+... {nama: 'Euis', usia: 25, gaji: 12000000},
+... {nama: 'Fafa', usia: 25}
+... ])
+BulkWriteResult({
+        "writeErrors" : [ ],
+        "writeConcernErrors" : [ ],
+        "nInserted" : 3,
+        "nUpserted" : 0,
+        "nMatched" : 0,
+        "nModified" : 0,
+        "nRemoved" : 0,
+        "upserted" : [ ]
+})
+
+> db.karyawan.find().pretty()
+{ "_id" : ObjectId("5e5490be5398e042f570e80c"), "nama" : "Andi" }
+{ "_id" : ObjectId("5e5490ed5398e042f570e80d"), "nama" : "Budi" }
+{
+        "_id" : ObjectId("5e5491a05398e042f570e80e"),
+        "nama" : "Caca",
+        "kota" : "Jakarta"
+}
+{
+        "_id" : ObjectId("5e5492765398e042f570e80f"),
+        "nama" : "Deni",
+        "usia" : 23,
+        "kota" : "Bandung"
+}
+{
+        "_id" : ObjectId("5e5492765398e042f570e810"),
+        "nama" : "Euis",
+        "usia" : 25,
+        "gaji" : 12000000
+}
+{
+        "_id" : ObjectId("5e5492765398e042f570e811"),
+        "nama" : "Fafa",
+        "usia" : 25
+}
+
+> db.karyawan.remove({nama:'Andi'})
+WriteResult({ "nRemoved" : 1 })
+
+> db.karyawan.find().pretty()
+{ "_id" : ObjectId("5e5490ed5398e042f570e80d"), "nama" : "Budi" }
+{
+        "_id" : ObjectId("5e5491a05398e042f570e80e"),
+        "nama" : "Caca",
+        "kota" : "Jakarta"
+}
+{
+        "_id" : ObjectId("5e5492765398e042f570e80f"),
+        "nama" : "Deni",
+        "usia" : 23,
+        "kota" : "Bandung"
+}
+{
+        "_id" : ObjectId("5e5492765398e042f570e810"),
+        "nama" : "Euis",
+        "usia" : 25,
+        "gaji" : 12000000
+}
+{
+        "_id" : ObjectId("5e5492765398e042f570e811"),
+        "nama" : "Fafa",
+        "usia" : 25
+}
+
+> db.karyawan.update(
+... {nama:'Budi'},
+... {nama: 'Bebi'}
+... )
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+
+> db.karyawan.find().pretty()
+{ "_id" : ObjectId("5e5490ed5398e042f570e80d"), "nama" : "Bebi" }
+{
+        "_id" : ObjectId("5e5491a05398e042f570e80e"),
+        "nama" : "Caca",
+        "kota" : "Jakarta"
+}
+{
+        "_id" : ObjectId("5e5492765398e042f570e80f"),
+        "nama" : "Deni",
+        "usia" : 23,
+        "kota" : "Bandung"
+}
+{
+        "_id" : ObjectId("5e5492765398e042f570e810"),
+        "nama" : "Euis",
+        "usia" : 25,
+        "gaji" : 12000000
+}
+{
+        "_id" : ObjectId("5e5492765398e042f570e811"),
+        "nama" : "Fafa",
+        "usia" : 25
+}
+
+> db.karyawan.update( {nama:'Caca'}, {nama: 'Cici'} )
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+
+> db.karyawan.find().pretty()
+{ "_id" : ObjectId("5e5490ed5398e042f570e80d"), "nama" : "Bebi" }
+{ "_id" : ObjectId("5e5491a05398e042f570e80e"), "nama" : "Cici" }
+{
+        "_id" : ObjectId("5e5492765398e042f570e80f"),
+        "nama" : "Deni",
+        "usia" : 23,
+        "kota" : "Bandung"
+}
+{
+        "_id" : ObjectId("5e5492765398e042f570e810"),
+        "nama" : "Euis",
+        "usia" : 25,
+        "gaji" : 12000000
+}
+{
+        "_id" : ObjectId("5e5492765398e042f570e811"),
+        "nama" : "Fafa",
+        "usia" : 25
+}
+
+> db.karyawan.update( {nama: 'Deni'}, {$set: {nama: 'Didi'}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+
+> db.karyawan.find().pretty()
+{ "_id" : ObjectId("5e5490ed5398e042f570e80d"), "nama" : "Bebi" }
+{ "_id" : ObjectId("5e5491a05398e042f570e80e"), "nama" : "Cici" }
+{
+        "_id" : ObjectId("5e5492765398e042f570e80f"),
+        "nama" : "Didi",
+        "usia" : 23,
+        "kota" : "Bandung"
+}
+{
+        "_id" : ObjectId("5e5492765398e042f570e810"),
+        "nama" : "Euis",
+        "usia" : 25,
+        "gaji" : 12000000
+}
+{
+        "_id" : ObjectId("5e5492765398e042f570e811"),
+        "nama" : "Fafa",
+        "usia" : 25
+}
+
+> db.karyawan.find({nama: 'Didi'}).pretty()
+{
+        "_id" : ObjectId("5e5492765398e042f570e80f"),
+        "nama" : "Didi",
+        "usia" : 23,
+        "kota" : "Bandung"
+}
+
+> db.karyawan.find({kota: 'Bandung'}).pretty()
+{
+        "_id" : ObjectId("5e5492765398e042f570e80f"),
+        "nama" : "Didi",
+        "usia" : 23,
+        "kota" : "Bandung"
+}
+
+> db.karyawan.update(
+... {},
+... {$set: {usia:24}}
+... )
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+
+> db.karyawan.find().pretty()
+{
+        "_id" : ObjectId("5e5490ed5398e042f570e80d"),
+        "nama" : "Bebi",
+        "usia" : 24
+}
+{ "_id" : ObjectId("5e5491a05398e042f570e80e"), "nama" : "Cici" }
+{
+        "_id" : ObjectId("5e5492765398e042f570e80f"),
+        "nama" : "Didi",
+        "usia" : 23,
+        "kota" : "Bandung"
+}
+{
+        "_id" : ObjectId("5e5492765398e042f570e810"),
+        "nama" : "Euis",
+        "usia" : 25,
+        "gaji" : 12000000
+}
+{
+        "_id" : ObjectId("5e5492765398e042f570e811"),
+        "nama" : "Fafa",
+        "usia" : 25
+}
+
+> show dbs
+admin   0.000GB
+config  0.000GB
+local   0.000GB
+ptxyz   0.000GB
+
+> db.karyawan.insertOne ({nama: "Gagah"})
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("5e5499665398e042f570e812")
+}
+
+> db.karyawan.find().pretty()
+{
+        "_id" : ObjectId("5e5490ed5398e042f570e80d"),
+        "nama" : "Bebi",
+        "usia" : 24
+}
+{ "_id" : ObjectId("5e5491a05398e042f570e80e"), "nama" : "Cici" }
+{
+        "_id" : ObjectId("5e5492765398e042f570e80f"),
+        "nama" : "Didi",
+        "usia" : 23,
+        "kota" : "Bandung"
+}
+{
+        "_id" : ObjectId("5e5492765398e042f570e810"),
+        "nama" : "Euis",
+        "usia" : 25,
+        "gaji" : 12000000
+}
+{
+        "_id" : ObjectId("5e5492765398e042f570e811"),
+        "nama" : "Fafa",
+        "usia" : 25
+}
+{ "_id" : ObjectId("5e5499665398e042f570e812"), "nama" : "Gagah" }
+
+> db.karyawan.insertMany ([
+... {nama: 'Hani', usia: 21},
+... {nama: 'Ineu', kota: 'Cimahi'},
+... {nama: 'Janu'}
+... ])
+{
+        "acknowledged" : true,
+        "insertedIds" : [
+                ObjectId("5e5499f95398e042f570e813"),
+                ObjectId("5e5499f95398e042f570e814"),
+                ObjectId("5e5499f95398e042f570e815")
+        ]
+}
+
+> db.karyawan.insertOne(
+... {nama: 'Koko', gps: {lat: 123, lng: 456},
+... hobbies: ['membaca', 'menyanyi', 'berlari']})
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("5e549ae15398e042f570e816")
+}
+
+> db.karyawan.find({nama: 'Koko'}).pretty()
+{
+        "_id" : ObjectId("5e549ae15398e042f570e816"),
+        "nama" : "Koko",
+        "gps" : {
+                "lat" : 123,
+                "lng" : 456
+        },
+        "hobbies" : [
+                "membaca",
+                "menyanyi",
+                "berlari"
+        ]
+}
+
+> db.karyawan.find().pretty()
+{
+        "_id" : ObjectId("5e5490ed5398e042f570e80d"),
+        "nama" : "Bebi",
+        "usia" : 24
+}
+{ "_id" : ObjectId("5e5491a05398e042f570e80e"), "nama" : "Cici" }
+{
+        "_id" : ObjectId("5e5492765398e042f570e80f"),
+        "nama" : "Didi",
+        "usia" : 23,
+        "kota" : "Bandung"
+}
+{
+        "_id" : ObjectId("5e5492765398e042f570e810"),
+        "nama" : "Euis",
+        "usia" : 25,
+        "gaji" : 12000000
+}
+{
+        "_id" : ObjectId("5e5492765398e042f570e811"),
+        "nama" : "Fafa",
+        "usia" : 25
+}
+{ "_id" : ObjectId("5e5499665398e042f570e812"), "nama" : "Gagah" }
+{
+        "_id" : ObjectId("5e5499f95398e042f570e813"),
+        "nama" : "Hani",
+        "usia" : 21
+}
+{
+        "_id" : ObjectId("5e5499f95398e042f570e814"),
+        "nama" : "Ineu",
+        "kota" : "Cimahi"
+}
+{ "_id" : ObjectId("5e5499f95398e042f570e815"), "nama" : "Janu" }
+{
+        "_id" : ObjectId("5e549ae15398e042f570e816"),
+        "nama" : "Koko",
+        "gps" : {
+                "lat" : 123,
+                "lng" : 456
+        },
+        "hobbies" : [
+                "membaca",
+                "menyanyi",
+                "berlari"
+        ]
+}
+
+> db.karyawan.updateOne(
+... {nama: 'Ineu'},
+... {$set: {usia: 28}})
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+
+> db.karyawan.find({nama: 'Ineu'}).pretty()
+{
+        "_id" : ObjectId("5e5499f95398e042f570e814"),
+        "nama" : "Ineu",
+        "kota" : "Cimahi",
+        "usia" : 28
+}
+
+> db.karyawan.updateOne(
+... {nama: 'Ineu'},
+... {$rename: {'usia': 'umur'}})
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+
+> db.karyawan.find({nama: 'Ineu'}).pretty()
+{
+        "_id" : ObjectId("5e5499f95398e042f570e814"),
+        "nama" : "Ineu",
+        "kota" : "Cimahi",
+        "umur" : 28
+}
+
+> db.karyawan.updateMany(
+... {nama: 'Ineu'},
+... {$rename: {'nama':'name','kota':'city','umur':'age'}})
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+
+> db.karyawan.find({nama: 'Ineu'}).pretty()
+
+> db.karyawan.find({name: 'Ineu'}).pretty()
+{
+        "_id" : ObjectId("5e5499f95398e042f570e814"),
+        "age" : 28,
+        "city" : "Cimahi",
+        "name" : "Ineu"
+}
+
+> db.karyawan.updateMany(
+... {},
+... {$set: {nationality: 'Indonesia'}})
+{ "acknowledged" : true, "matchedCount" : 10, "modifiedCount" : 10 }
+
+> db.karyawan.find().pretty()
+{
+        "_id" : ObjectId("5e5490ed5398e042f570e80d"),
+        "nama" : "Bebi",
+        "usia" : 24,
+        "nationality" : "Indonesia"
+}
+{
+        "_id" : ObjectId("5e5491a05398e042f570e80e"),
+        "nama" : "Cici",
+        "nationality" : "Indonesia"
+}
+{
+        "_id" : ObjectId("5e5492765398e042f570e80f"),
+        "nama" : "Didi",
+        "usia" : 23,
+        "kota" : "Bandung",
+        "nationality" : "Indonesia"
+}
+{
+        "_id" : ObjectId("5e5492765398e042f570e810"),
+        "nama" : "Euis",
+        "usia" : 25,
+        "gaji" : 12000000,
+        "nationality" : "Indonesia"
+}
+{
+        "_id" : ObjectId("5e5492765398e042f570e811"),
+        "nama" : "Fafa",
+        "usia" : 25,
+        "nationality" : "Indonesia"
+}
+{
+        "_id" : ObjectId("5e5499665398e042f570e812"),
+        "nama" : "Gagah",
+        "nationality" : "Indonesia"
+}
+{
+        "_id" : ObjectId("5e5499f95398e042f570e813"),
+        "nama" : "Hani",
+        "usia" : 21,
+        "nationality" : "Indonesia"
+}
+{
+        "_id" : ObjectId("5e5499f95398e042f570e814"),
+        "age" : 28,
+        "city" : "Cimahi",
+        "name" : "Ineu",
+        "nationality" : "Indonesia"
+}
+{
+        "_id" : ObjectId("5e5499f95398e042f570e815"),
+        "nama" : "Janu",
+        "nationality" : "Indonesia"
+}
+{
+        "_id" : ObjectId("5e549ae15398e042f570e816"),
+        "nama" : "Koko",
+        "gps" : {
+                "lat" : 123,
+                "lng" : 456
+        },
+        "hobbies" : [
+                "membaca",
+                "menyanyi",
+                "berlari"
+        ],
+        "nationality" : "Indonesia"
+}
+
+> db.karyawan.find({}).pretty()
+{
+        "_id" : ObjectId("5e5490ed5398e042f570e80d"),
+        "nama" : "Bebi",
+        "usia" : 24,
+        "nationality" : "Indonesia"
+}
+{
+        "_id" : ObjectId("5e5491a05398e042f570e80e"),
+        "nama" : "Cici",
+        "nationality" : "Indonesia"
+}
+{
+        "_id" : ObjectId("5e5492765398e042f570e80f"),
+        "nama" : "Didi",
+        "usia" : 23,
+        "kota" : "Bandung",
+        "nationality" : "Indonesia"
+}
+{
+        "_id" : ObjectId("5e5492765398e042f570e810"),
+        "nama" : "Euis",
+        "usia" : 25,
+        "gaji" : 12000000,
+        "nationality" : "Indonesia"
+}
+{
+        "_id" : ObjectId("5e5492765398e042f570e811"),
+        "nama" : "Fafa",
+        "usia" : 25,
+        "nationality" : "Indonesia"
+}
+{
+        "_id" : ObjectId("5e5499665398e042f570e812"),
+        "nama" : "Gagah",
+        "nationality" : "Indonesia"
+}
+{
+        "_id" : ObjectId("5e5499f95398e042f570e813"),
+        "nama" : "Hani",
+        "usia" : 21,
+        "nationality" : "Indonesia"
+}
+{
+        "_id" : ObjectId("5e5499f95398e042f570e814"),
+        "age" : 28,
+        "city" : "Cimahi",
+        "name" : "Ineu",
+        "nationality" : "Indonesia"
+}
+{
+        "_id" : ObjectId("5e5499f95398e042f570e815"),
+        "nama" : "Janu",
+        "nationality" : "Indonesia"
+}
+{
+        "_id" : ObjectId("5e549ae15398e042f570e816"),
+        "nama" : "Koko",
+        "gps" : {
+                "lat" : 123,
+                "lng" : 456
+        },
+        "hobbies" : [
+                "membaca",
+                "menyanyi",
+                "berlari"
+        ],
+        "nationality" : "Indonesia"
+}
+
+> db.karyawan.insertOne({nama: 'Lina', isMarried: true})
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("5e54a0185398e042f570e817")
+}
+
+> db.karyawan.find().pretty()
+{
+        "_id" : ObjectId("5e5490ed5398e042f570e80d"),
+        "nama" : "Bebi",
+        "usia" : 24,
+        "nationality" : "Indonesia"
+}
+{
+        "_id" : ObjectId("5e5491a05398e042f570e80e"),
+        "nama" : "Cici",
+        "nationality" : "Indonesia"
+}
+{
+        "_id" : ObjectId("5e5492765398e042f570e80f"),
+        "nama" : "Didi",
+        "usia" : 23,
+        "kota" : "Bandung",
+        "nationality" : "Indonesia"
+}
+{
+        "_id" : ObjectId("5e5492765398e042f570e810"),
+        "nama" : "Euis",
+        "usia" : 25,
+        "gaji" : 12000000,
+        "nationality" : "Indonesia"
+}
+{
+        "_id" : ObjectId("5e5492765398e042f570e811"),
+        "nama" : "Fafa",
+        "usia" : 25,
+        "nationality" : "Indonesia"
+}
+{
+        "_id" : ObjectId("5e5499665398e042f570e812"),
+        "nama" : "Gagah",
+        "nationality" : "Indonesia"
+}
+{
+        "_id" : ObjectId("5e5499f95398e042f570e813"),
+        "nama" : "Hani",
+        "usia" : 21,
+        "nationality" : "Indonesia"
+}
+{
+        "_id" : ObjectId("5e5499f95398e042f570e814"),
+        "age" : 28,
+        "city" : "Cimahi",
+        "name" : "Ineu",
+        "nationality" : "Indonesia"
+}
+{
+        "_id" : ObjectId("5e5499f95398e042f570e815"),
+        "nama" : "Janu",
+        "nationality" : "Indonesia"
+}
+{
+        "_id" : ObjectId("5e549ae15398e042f570e816"),
+        "nama" : "Koko",
+        "gps" : {
+                "lat" : 123,
+                "lng" : 456
+        },
+        "hobbies" : [
+                "membaca",
+                "menyanyi",
+                "berlari"
+        ],
+        "nationality" : "Indonesia"
+}
+{
+        "_id" : ObjectId("5e54a0185398e042f570e817"),
+        "nama" : "Lina",
+        "isMarried" : true
+}
+
+> db.karyawan.replaceOne(
+... {nama: 'Lina'},
+... {kota: 'Kediri', nationality: 'Indonesia'})
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+
+> db.karyawan.find().pretty()
+{
+        "_id" : ObjectId("5e5490ed5398e042f570e80d"),
+        "nama" : "Bebi",
+        "usia" : 24,
+        "nationality" : "Indonesia"
+}
+{
+        "_id" : ObjectId("5e5491a05398e042f570e80e"),
+        "nama" : "Cici",
+        "nationality" : "Indonesia"
+}
+{
+        "_id" : ObjectId("5e5492765398e042f570e80f"),
+        "nama" : "Didi",
+        "usia" : 23,
+        "kota" : "Bandung",
+        "nationality" : "Indonesia"
+}
+{
+        "_id" : ObjectId("5e5492765398e042f570e810"),
+        "nama" : "Euis",
+        "usia" : 25,
+        "gaji" : 12000000,
+        "nationality" : "Indonesia"
+}
+{
+        "_id" : ObjectId("5e5492765398e042f570e811"),
+        "nama" : "Fafa",
+        "usia" : 25,
+        "nationality" : "Indonesia"
+}
+{
+        "_id" : ObjectId("5e5499665398e042f570e812"),
+        "nama" : "Gagah",
+        "nationality" : "Indonesia"
+}
+{
+        "_id" : ObjectId("5e5499f95398e042f570e813"),
+        "nama" : "Hani",
+        "usia" : 21,
+        "nationality" : "Indonesia"
+}
+{
+        "_id" : ObjectId("5e5499f95398e042f570e814"),
+        "age" : 28,
+        "city" : "Cimahi",
+        "name" : "Ineu",
+        "nationality" : "Indonesia"
+}
+{
+        "_id" : ObjectId("5e5499f95398e042f570e815"),
+        "nama" : "Janu",
+        "nationality" : "Indonesia"
+}
+{
+        "_id" : ObjectId("5e549ae15398e042f570e816"),
+        "nama" : "Koko",
+        "gps" : {
+                "lat" : 123,
+                "lng" : 456
+        },
+        "hobbies" : [
+                "membaca",
+                "menyanyi",
+                "berlari"
+        ],
+        "nationality" : "Indonesia"
+}
+{
+        "_id" : ObjectId("5e54a0185398e042f570e817"),
+        "kota" : "Kediri",
+        "nationality" : "Indonesia"
+}
+
+> db.karyawan.deleteOne({kota:'Kediri'})
+{ "acknowledged" : true, "deletedCount" : 1 }
+
+> db.karyawan.find().pretty()
+{
+        "_id" : ObjectId("5e5490ed5398e042f570e80d"),
+        "nama" : "Bebi",
+        "usia" : 24,
+        "nationality" : "Indonesia"
+}
+{
+        "_id" : ObjectId("5e5491a05398e042f570e80e"),
+        "nama" : "Cici",
+        "nationality" : "Indonesia"
+}
+{
+        "_id" : ObjectId("5e5492765398e042f570e80f"),
+        "nama" : "Didi",
+        "usia" : 23,
+        "kota" : "Bandung",
+        "nationality" : "Indonesia"
+}
+{
+        "_id" : ObjectId("5e5492765398e042f570e810"),
+        "nama" : "Euis",
+        "usia" : 25,
+        "gaji" : 12000000,
+        "nationality" : "Indonesia"
+}
+{
+        "_id" : ObjectId("5e5492765398e042f570e811"),
+        "nama" : "Fafa",
+        "usia" : 25,
+        "nationality" : "Indonesia"
+}
+{
+        "_id" : ObjectId("5e5499665398e042f570e812"),
+        "nama" : "Gagah",
+        "nationality" : "Indonesia"
+}
+{
+        "_id" : ObjectId("5e5499f95398e042f570e813"),
+        "nama" : "Hani",
+        "usia" : 21,
+        "nationality" : "Indonesia"
+}
+{
+        "_id" : ObjectId("5e5499f95398e042f570e814"),
+        "age" : 28,
+        "city" : "Cimahi",
+        "name" : "Ineu",
+        "nationality" : "Indonesia"
+}
+{
+        "_id" : ObjectId("5e5499f95398e042f570e815"),
+        "nama" : "Janu",
+        "nationality" : "Indonesia"
+}
+{
+        "_id" : ObjectId("5e549ae15398e042f570e816"),
+        "nama" : "Koko",
+        "gps" : {
+                "lat" : 123,
+                "lng" : 456
+        },
+        "hobbies" : [
+                "membaca",
+                "menyanyi",
+                "berlari"
+        ],
+        "nationality" : "Indonesia"
+}
+
+> db.karyawan.deleteMany({})
+{ "acknowledged" : true, "deletedCount" : 10 }
+
+> db.karyawan.find().pretty()
+
+> db.karyawan.insertMany([
+... {nama: "Andi", usia: 20, kota: "Jakarta"},
+... {nama: "Budi", usia: 22, kota: "Jakarta"},
+... {nama: "Caca", usia: 24, kota: "Bandung"},
+... {nama: "Deni", usia: 35, kota: "Jakarta"},
+... {nama: "Euis", usia: 29, kota: "Bandung"},
+... {nama: "Fifi", usia: 28, kota: "Bandung"}])
+{
+        "acknowledged" : true,
+        "insertedIds" : [
+                ObjectId("5e54a3445398e042f570e818"),
+                ObjectId("5e54a3445398e042f570e819"),
+                ObjectId("5e54a3445398e042f570e81a"),
+                ObjectId("5e54a3445398e042f570e81b"),
+                ObjectId("5e54a3445398e042f570e81c"),
+                ObjectId("5e54a3445398e042f570e81d")
+        ]
+}
+
+> db.karyawan.find().pretty()
+{
+        "_id" : ObjectId("5e54a3445398e042f570e818"),
+        "nama" : "Andi",
+        "usia" : 20,
+        "kota" : "Jakarta"
+}
+{
+        "_id" : ObjectId("5e54a3445398e042f570e819"),
+        "nama" : "Budi",
+        "usia" : 22,
+        "kota" : "Jakarta"
+}
+{
+        "_id" : ObjectId("5e54a3445398e042f570e81a"),
+        "nama" : "Caca",
+        "usia" : 24,
+        "kota" : "Bandung"
+}
+{
+        "_id" : ObjectId("5e54a3445398e042f570e81b"),
+        "nama" : "Deni",
+        "usia" : 35,
+        "kota" : "Jakarta"
+}
+{
+        "_id" : ObjectId("5e54a3445398e042f570e81c"),
+        "nama" : "Euis",
+        "usia" : 29,
+        "kota" : "Bandung"
+}
+{
+        "_id" : ObjectId("5e54a3445398e042f570e81d"),
+        "nama" : "Fifi",
+        "usia" : 28,
+        "kota" : "Bandung"
+}
+
+> db.karyawan.find().count()
+6
+
+> db.karyawan.find({kota: 'Bandung'}).count()
+3
+
+> db.karyawan.find({kota: 'Jakarta'}).count()
+3
+
+> db.karyawan.find({kota: 'jakarta'}).count()
+0
+
+> db.karyawan.find({kota: 'Bandung'})
+{ "_id" : ObjectId("5e54a3445398e042f570e81a"), "nama" : "Caca", "usia" : 24, "kota" : "Bandung" }
+{ "_id" : ObjectId("5e54a3445398e042f570e81c"), "nama" : "Euis", "usia" : 29, "kota" : "Bandung" }
+{ "_id" : ObjectId("5e54a3445398e042f570e81d"), "nama" : "Fifi", "usia" : 28, "kota" : "Bandung" }
+
+> db.karyawan.find({kota: 'Jakarta'})
+{ "_id" : ObjectId("5e54a3445398e042f570e818"), "nama" : "Andi", "usia" : 20, "kota" : "Jakarta" }
+{ "_id" : ObjectId("5e54a3445398e042f570e819"), "nama" : "Budi", "usia" : 22, "kota" : "Jakarta" }
+{ "_id" : ObjectId("5e54a3445398e042f570e81b"), "nama" : "Deni", "usia" : 35, "kota" : "Jakarta" }
+
+> db.karyawan.find({kota: 'Jakarta'}).sort({usia:-1})
+{ "_id" : ObjectId("5e54a3445398e042f570e81b"), "nama" : "Deni", "usia" : 35, "kota" : "Jakarta" }
+{ "_id" : ObjectId("5e54a3445398e042f570e819"), "nama" : "Budi", "usia" : 22, "kota" : "Jakarta" }
+{ "_id" : ObjectId("5e54a3445398e042f570e818"), "nama" : "Andi", "usia" : 20, "kota" : "Jakarta" }
+
+> db.karyawan.find({kota: 'Jakarta'}).sort({usia:1})
+{ "_id" : ObjectId("5e54a3445398e042f570e818"), "nama" : "Andi", "usia" : 20, "kota" : "Jakarta" }
+{ "_id" : ObjectId("5e54a3445398e042f570e819"), "nama" : "Budi", "usia" : 22, "kota" : "Jakarta" }
+{ "_id" : ObjectId("5e54a3445398e042f570e81b"), "nama" : "Deni", "usia" : 35, "kota" : "Jakarta" }
+
+> db.karyawan.find({kota: 'Jakarta'}).limit(2)
+{ "_id" : ObjectId("5e54a3445398e042f570e818"), "nama" : "Andi", "usia" : 20, "kota" : "Jakarta" }
+{ "_id" : ObjectId("5e54a3445398e042f570e819"), "nama" : "Budi", "usia" : 22, "kota" : "Jakarta" }
+
+> db.karyawan.find({kota: 'Jakarta'}).sort({usia:1}).limit(1)
+{ "_id" : ObjectId("5e54a3445398e042f570e818"), "nama" : "Andi", "usia" : 20, "kota" : "Jakarta" }
+
+> db.karyawan.find({kota: 'Jakarta'}).sort({usia:-1}).limit(1)
+{ "_id" : ObjectId("5e54a3445398e042f570e81b"), "nama" : "Deni", "usia" : 35, "kota" : "Jakarta" }
+
+> db.karyawan.find().sort({usia:1}).limit(1)
+{ "_id" : ObjectId("5e54a3445398e042f570e818"), "nama" : "Andi", "usia" : 20, "kota" : "Jakarta" }
+
+> db.karyawan.find().sort({usia:-1}).limit(1)
+{ "_id" : ObjectId("5e54a3445398e042f570e81b"), "nama" : "Deni", "usia" : 35, "kota" : "Jakarta" }
+
+> db.karyawan.find({usia: {$lt:25}})
+{ "_id" : ObjectId("5e54a3445398e042f570e818"), "nama" : "Andi", "usia" : 20, "kota" : "Jakarta" }
+{ "_id" : ObjectId("5e54a3445398e042f570e819"), "nama" : "Budi", "usia" : 22, "kota" : "Jakarta" }
+{ "_id" : ObjectId("5e54a3445398e042f570e81a"), "nama" : "Caca", "usia" : 24, "kota" : "Bandung" }
+
+> db.karyawan.find({usia: {$lte:25}})
+{ "_id" : ObjectId("5e54a3445398e042f570e818"), "nama" : "Andi", "usia" : 20, "kota" : "Jakarta" }
+{ "_id" : ObjectId("5e54a3445398e042f570e819"), "nama" : "Budi", "usia" : 22, "kota" : "Jakarta" }
+{ "_id" : ObjectId("5e54a3445398e042f570e81a"), "nama" : "Caca", "usia" : 24, "kota" : "Bandung" }
+
+> db.karyawan.find({usia: {$gt:25}})
+{ "_id" : ObjectId("5e54a3445398e042f570e81b"), "nama" : "Deni", "usia" : 35, "kota" : "Jakarta" }
+{ "_id" : ObjectId("5e54a3445398e042f570e81c"), "nama" : "Euis", "usia" : 29, "kota" : "Bandung" }
+{ "_id" : ObjectId("5e54a3445398e042f570e81d"), "nama" : "Fifi", "usia" : 28, "kota" : "Bandung" }
+
+> db.karyawan.find({usia: {$gte:25}})
+{ "_id" : ObjectId("5e54a3445398e042f570e81b"), "nama" : "Deni", "usia" : 35, "kota" : "Jakarta" }
+{ "_id" : ObjectId("5e54a3445398e042f570e81c"), "nama" : "Euis", "usia" : 29, "kota" : "Bandung" }
+{ "_id" : ObjectId("5e54a3445398e042f570e81d"), "nama" : "Fifi", "usia" : 28, "kota" : "Bandung" }
+
+> db.karyawan.find({$and: [{kota:'Jakarta'}, {usia: {$lt:25}}]}).pretty()
+{
+        "_id" : ObjectId("5e54a3445398e042f570e818"),
+        "nama" : "Andi",
+        "usia" : 20,
+        "kota" : "Jakarta"
+}
+{
+        "_id" : ObjectId("5e54a3445398e042f570e819"),
+        "nama" : "Budi",
+        "usia" : 22,
+        "kota" : "Jakarta"
+}
+
+> db.karyawan.find({$or: [{kota:'Jakarta'}, {usia: {$lt:25}}]}).pretty()
+{
+        "_id" : ObjectId("5e54a3445398e042f570e818"),
+        "nama" : "Andi",
+        "usia" : 20,
+        "kota" : "Jakarta"
+}
+{
+        "_id" : ObjectId("5e54a3445398e042f570e819"),
+        "nama" : "Budi",
+        "usia" : 22,
+        "kota" : "Jakarta"
+}
+{
+        "_id" : ObjectId("5e54a3445398e042f570e81a"),
+        "nama" : "Caca",
+        "usia" : 24,
+        "kota" : "Bandung"
+}
+{
+        "_id" : ObjectId("5e54a3445398e042f570e81b"),
+        "nama" : "Deni",
+        "usia" : 35,
+        "kota" : "Jakarta"
+}
+> 

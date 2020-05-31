@@ -1,0 +1,977 @@
+Microsoft Windows [Version 10.0.18362.657]
+(c) 2019 Microsoft Corporation. All rights reserved.
+
+C:\Users\User>cd ..
+
+C:\Users>cd ..
+
+C:\>program files\mysql\mysql server 8.0\bin
+'program' is not recognized as an internal or external command,
+operable program or batch file.
+
+C:\>cd program files\mysql\mysql server 8.0\bin
+
+C:\Program Files\MySQL\MySQL Server 8.0\bin>mysql -u novita -p
+Enter password: ********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 11
+Server version: 8.0.19 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database ptxyz;
+Query OK, 1 row affected (0.12 sec)
+
+mysql> use ptxyz
+Database changed
+mysql> create table karyawan(
+    -> id bigint not null auto_increment,
+    -> name varchar(100) not null default 'No Name',
+    -> email varchar(100) not null unique,
+    -> bod date,
+    -> sex enum('male', 'female'),
+    -> created_at timestamp default current_timestamp,
+    -> kota set('Jakarta','Bandung','Palu'),
+    -> last_update timestamp default current_timestamp on update current_timestamp,
+    -> primary key (id)
+    -> );
+Query OK, 0 rows affected (1.70 sec)
+
+mysql> describe karyawan
+    -> describe karyawan;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'describe karyawan' at line 2
+mysql> describe karyawan;
++-------------+---------------------------------+------+-----+-------------------+-----------------------------------------------+
+| Field       | Type                            | Null | Key | Default           | Extra                                         |
++-------------+---------------------------------+------+-----+-------------------+-----------------------------------------------+
+| id          | bigint                          | NO   | PRI | NULL              | auto_increment                                |
+| name        | varchar(100)                    | NO   |     | No Name           |                                               |
+| email       | varchar(100)                    | NO   | UNI | NULL              |                                               |
+| bod         | date                            | YES  |     | NULL              |                                               |
+| sex         | enum('male','female')           | YES  |     | NULL              |                                               |
+| created_at  | timestamp                       | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED                             |
+| kota        | set('Jakarta','Bandung','Palu') | YES  |     | NULL              |                                               |
+| last_update | timestamp                       | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
++-------------+---------------------------------+------+-----+-------------------+-----------------------------------------------+
+8 rows in set (0.04 sec)
+
+mysql> insert into karyawan (name, email, bod, sex, kota)
+    -> values
+    -> ('Andi','andi@andi.com','1992-02-20','male',Jakarta);
+ERROR 1054 (42S22): Unknown column 'Jakarta' in 'field list'
+mysql> insert into karyawan (name, email, bod, sex, kota)
+    -> values
+    -> ('Andi','andi@andi.com','1992-02-20','male','Jakarta');
+Query OK, 1 row affected (0.15 sec)
+
+mysql> select * from karyawan
+    -> select * from karyawan;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select * from karyawan' at line 2
+mysql> select * from karyawan;
++----+------+---------------+------------+------+---------------------+---------+---------------------+
+| id | name | email         | bod        | sex  | created_at          | kota    | last_update         |
++----+------+---------------+------------+------+---------------------+---------+---------------------+
+|  1 | Andi | andi@andi.com | 1992-02-20 | male | 2020-02-20 09:36:58 | Jakarta | 2020-02-20 09:36:58 |
++----+------+---------------+------------+------+---------------------+---------+---------------------+
+1 row in set (0.00 sec)
+
+mysql> insert into karyawan (name, email, bod, sex, kota)
+    -> values
+    -> ('Budi','andi@andi.com','1992-02-20','male','Jakarta');
+ERROR 1062 (23000): Duplicate entry 'andi@andi.com' for key 'karyawan.email'
+mysql> select * from karyawan;
++----+------+---------------+------------+------+---------------------+---------+---------------------+
+| id | name | email         | bod        | sex  | created_at          | kota    | last_update         |
++----+------+---------------+------------+------+---------------------+---------+---------------------+
+|  1 | Andi | andi@andi.com | 1992-02-20 | male | 2020-02-20 09:36:58 | Jakarta | 2020-02-20 09:36:58 |
++----+------+---------------+------------+------+---------------------+---------+---------------------+
+1 row in set (0.00 sec)
+
+mysql> insert into karyawan (name, email, bod, sex, kota)
+    -> values
+    -> ('Budi','budi@budi.com','1991-01-21','male','Bandung'),
+    -> ('Caca','caca@caca.com','1995-05-28','female','Bandung'),
+    -> ('Deni','deni@deni.com','1993-09-01','male','Palu'),
+    -> ('Euis','euis@euis.com','1992-09-10','female','Jakarta');
+Query OK, 4 rows affected (0.17 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> select * from karyawan;
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+| id | name | email         | bod        | sex    | created_at          | kota    | last_update         |
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+|  1 | Andi | andi@andi.com | 1992-02-20 | male   | 2020-02-20 09:36:58 | Jakarta | 2020-02-20 09:36:58 |
+|  3 | Budi | budi@budi.com | 1991-01-21 | male   | 2020-02-20 09:42:22 | Bandung | 2020-02-20 09:42:22 |
+|  4 | Caca | caca@caca.com | 1995-05-28 | female | 2020-02-20 09:42:22 | Bandung | 2020-02-20 09:42:22 |
+|  5 | Deni | deni@deni.com | 1993-09-01 | male   | 2020-02-20 09:42:22 | Palu    | 2020-02-20 09:42:22 |
+|  6 | Euis | euis@euis.com | 1992-09-10 | female | 2020-02-20 09:42:22 | Jakarta | 2020-02-20 09:42:22 |
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+5 rows in set (0.00 sec)
+
+mysql> select id, name from karyawan;
++----+------+
+| id | name |
++----+------+
+|  1 | Andi |
+|  3 | Budi |
+|  4 | Caca |
+|  5 | Deni |
+|  6 | Euis |
++----+------+
+5 rows in set (0.00 sec)
+
+mysql> insert into karyawan (id, nama, email, bod, sex, kota) values
+    -> (2,'Fafa','fafa@fafa.com','1993-03-10','male','Jakarta');
+ERROR 1054 (42S22): Unknown column 'nama' in 'field list'
+mysql> insert into karyawan (id, name, email, bod, sex, kota) values
+    -> (2,'Fafa','fafa@fafa.com','1993-03-10','male','Jakarta');
+Query OK, 1 row affected (0.07 sec)
+
+mysql> select * from karyawan;
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+| id | name | email         | bod        | sex    | created_at          | kota    | last_update         |
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+|  1 | Andi | andi@andi.com | 1992-02-20 | male   | 2020-02-20 09:36:58 | Jakarta | 2020-02-20 09:36:58 |
+|  2 | Fafa | fafa@fafa.com | 1993-03-10 | male   | 2020-02-20 09:48:20 | Jakarta | 2020-02-20 09:48:20 |
+|  3 | Budi | budi@budi.com | 1991-01-21 | male   | 2020-02-20 09:42:22 | Bandung | 2020-02-20 09:42:22 |
+|  4 | Caca | caca@caca.com | 1995-05-28 | female | 2020-02-20 09:42:22 | Bandung | 2020-02-20 09:42:22 |
+|  5 | Deni | deni@deni.com | 1993-09-01 | male   | 2020-02-20 09:42:22 | Palu    | 2020-02-20 09:42:22 |
+|  6 | Euis | euis@euis.com | 1992-09-10 | female | 2020-02-20 09:42:22 | Jakarta | 2020-02-20 09:42:22 |
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+6 rows in set (0.00 sec)
+
+mysql> select * from karyawan where id = 1;
++----+------+---------------+------------+------+---------------------+---------+---------------------+
+| id | name | email         | bod        | sex  | created_at          | kota    | last_update         |
++----+------+---------------+------------+------+---------------------+---------+---------------------+
+|  1 | Andi | andi@andi.com | 1992-02-20 | male | 2020-02-20 09:36:58 | Jakarta | 2020-02-20 09:36:58 |
++----+------+---------------+------------+------+---------------------+---------+---------------------+
+1 row in set (0.00 sec)
+
+mysql> select * from karyawan where name = 'Andi';
++----+------+---------------+------------+------+---------------------+---------+---------------------+
+| id | name | email         | bod        | sex  | created_at          | kota    | last_update         |
++----+------+---------------+------------+------+---------------------+---------+---------------------+
+|  1 | Andi | andi@andi.com | 1992-02-20 | male | 2020-02-20 09:36:58 | Jakarta | 2020-02-20 09:36:58 |
++----+------+---------------+------------+------+---------------------+---------+---------------------+
+1 row in set (0.00 sec)
+
+mysql> select * from karyawan limit 2;
++----+------+---------------+------------+------+---------------------+---------+---------------------+
+| id | name | email         | bod        | sex  | created_at          | kota    | last_update         |
++----+------+---------------+------------+------+---------------------+---------+---------------------+
+|  1 | Andi | andi@andi.com | 1992-02-20 | male | 2020-02-20 09:36:58 | Jakarta | 2020-02-20 09:36:58 |
+|  2 | Fafa | fafa@fafa.com | 1993-03-10 | male | 2020-02-20 09:48:20 | Jakarta | 2020-02-20 09:48:20 |
++----+------+---------------+------------+------+---------------------+---------+---------------------+
+2 rows in set (0.00 sec)
+
+mysql> select * from karyawan limit 2,2;
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+| id | name | email         | bod        | sex    | created_at          | kota    | last_update         |
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+|  3 | Budi | budi@budi.com | 1991-01-21 | male   | 2020-02-20 09:42:22 | Bandung | 2020-02-20 09:42:22 |
+|  4 | Caca | caca@caca.com | 1995-05-28 | female | 2020-02-20 09:42:22 | Bandung | 2020-02-20 09:42:22 |
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+2 rows in set (0.00 sec)
+
+mysql> select * from karyawan where kota = 'Jakarta';
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+| id | name | email         | bod        | sex    | created_at          | kota    | last_update         |
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+|  1 | Andi | andi@andi.com | 1992-02-20 | male   | 2020-02-20 09:36:58 | Jakarta | 2020-02-20 09:36:58 |
+|  2 | Fafa | fafa@fafa.com | 1993-03-10 | male   | 2020-02-20 09:48:20 | Jakarta | 2020-02-20 09:48:20 |
+|  6 | Euis | euis@euis.com | 1992-09-10 | female | 2020-02-20 09:42:22 | Jakarta | 2020-02-20 09:42:22 |
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from karyawan where kota = 'Jakarta' and sex = 'female';
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+| id | name | email         | bod        | sex    | created_at          | kota    | last_update         |
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+|  6 | Euis | euis@euis.com | 1992-09-10 | female | 2020-02-20 09:42:22 | Jakarta | 2020-02-20 09:42:22 |
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+1 row in set (0.00 sec)
+
+mysql> select * from karyawan where kota = 'Jakarta' or sex = 'female';
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+| id | name | email         | bod        | sex    | created_at          | kota    | last_update         |
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+|  1 | Andi | andi@andi.com | 1992-02-20 | male   | 2020-02-20 09:36:58 | Jakarta | 2020-02-20 09:36:58 |
+|  2 | Fafa | fafa@fafa.com | 1993-03-10 | male   | 2020-02-20 09:48:20 | Jakarta | 2020-02-20 09:48:20 |
+|  4 | Caca | caca@caca.com | 1995-05-28 | female | 2020-02-20 09:42:22 | Bandung | 2020-02-20 09:42:22 |
+|  6 | Euis | euis@euis.com | 1992-09-10 | female | 2020-02-20 09:42:22 | Jakarta | 2020-02-20 09:42:22 |
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from karyawan where name like '%di';
++----+------+---------------+------------+------+---------------------+---------+---------------------+
+| id | name | email         | bod        | sex  | created_at          | kota    | last_update         |
++----+------+---------------+------------+------+---------------------+---------+---------------------+
+|  1 | Andi | andi@andi.com | 1992-02-20 | male | 2020-02-20 09:36:58 | Jakarta | 2020-02-20 09:36:58 |
+|  3 | Budi | budi@budi.com | 1991-01-21 | male | 2020-02-20 09:42:22 | Bandung | 2020-02-20 09:42:22 |
++----+------+---------------+------------+------+---------------------+---------+---------------------+
+2 rows in set (0.01 sec)
+
+mysql> select * from karyawan where name like 'A%';
++----+------+---------------+------------+------+---------------------+---------+---------------------+
+| id | name | email         | bod        | sex  | created_at          | kota    | last_update         |
++----+------+---------------+------------+------+---------------------+---------+---------------------+
+|  1 | Andi | andi@andi.com | 1992-02-20 | male | 2020-02-20 09:36:58 | Jakarta | 2020-02-20 09:36:58 |
++----+------+---------------+------------+------+---------------------+---------+---------------------+
+1 row in set (0.00 sec)
+
+mysql> select * from karyawan where name like '%a%';
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+| id | name | email         | bod        | sex    | created_at          | kota    | last_update         |
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+|  1 | Andi | andi@andi.com | 1992-02-20 | male   | 2020-02-20 09:36:58 | Jakarta | 2020-02-20 09:36:58 |
+|  2 | Fafa | fafa@fafa.com | 1993-03-10 | male   | 2020-02-20 09:48:20 | Jakarta | 2020-02-20 09:48:20 |
+|  4 | Caca | caca@caca.com | 1995-05-28 | female | 2020-02-20 09:42:22 | Bandung | 2020-02-20 09:42:22 |
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from karyawan where name not like '%di';
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+| id | name | email         | bod        | sex    | created_at          | kota    | last_update         |
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+|  2 | Fafa | fafa@fafa.com | 1993-03-10 | male   | 2020-02-20 09:48:20 | Jakarta | 2020-02-20 09:48:20 |
+|  4 | Caca | caca@caca.com | 1995-05-28 | female | 2020-02-20 09:42:22 | Bandung | 2020-02-20 09:42:22 |
+|  5 | Deni | deni@deni.com | 1993-09-01 | male   | 2020-02-20 09:42:22 | Palu    | 2020-02-20 09:42:22 |
+|  6 | Euis | euis@euis.com | 1992-09-10 | female | 2020-02-20 09:42:22 | Jakarta | 2020-02-20 09:42:22 |
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+4 rows in set (0.00 sec)
+
+mysql> select bod from karyawan where name = 'andi';
++------------+
+| bod        |
++------------+
+| 1992-02-20 |
++------------+
+1 row in set (0.00 sec)
+
+mysql> select count(*) from karyawan;
++----------+
+| count(*) |
++----------+
+|        6 |
++----------+
+1 row in set (0.03 sec)
+
+mysql> select count(*) as jumlahKaryawan from karyawan;
++----------------+
+| jumlahKaryawan |
++----------------+
+|              6 |
++----------------+
+1 row in set (0.02 sec)
+
+mysql> select count(*) as jumlahKaryawanJKT from karyawan where kota = 'jakarta';
++-------------------+
+| jumlahKaryawanJKT |
++-------------------+
+|                 3 |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql> select min(id) from karyawan;
++---------+
+| min(id) |
++---------+
+|       1 |
++---------+
+1 row in set (0.02 sec)
+
+mysql> select max(id) from karyawan;
++---------+
+| max(id) |
++---------+
+|       6 |
++---------+
+1 row in set (0.00 sec)
+
+mysql> select count(*),min(id),max(id) from karyawan;
++----------+---------+---------+
+| count(*) | min(id) | max(id) |
++----------+---------+---------+
+|        6 |       1 |       6 |
++----------+---------+---------+
+1 row in set (0.00 sec)
+
+mysql> select count(*),min(id),max(id),sum(id) from karyawan;
++----------+---------+---------+---------+
+| count(*) | min(id) | max(id) | sum(id) |
++----------+---------+---------+---------+
+|        6 |       1 |       6 |      21 |
++----------+---------+---------+---------+
+1 row in set (0.04 sec)
+
+mysql> select count(*),min(id),max(id),sum(id),avg(id) from karyawan;
++----------+---------+---------+---------+---------+
+| count(*) | min(id) | max(id) | sum(id) | avg(id) |
++----------+---------+---------+---------+---------+
+|        6 |       1 |       6 |      21 |  3.5000 |
++----------+---------+---------+---------+---------+
+1 row in set (0.00 sec)
+
+mysql> select * from karyawan order by id;
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+| id | name | email         | bod        | sex    | created_at          | kota    | last_update         |
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+|  1 | Andi | andi@andi.com | 1992-02-20 | male   | 2020-02-20 09:36:58 | Jakarta | 2020-02-20 09:36:58 |
+|  2 | Fafa | fafa@fafa.com | 1993-03-10 | male   | 2020-02-20 09:48:20 | Jakarta | 2020-02-20 09:48:20 |
+|  3 | Budi | budi@budi.com | 1991-01-21 | male   | 2020-02-20 09:42:22 | Bandung | 2020-02-20 09:42:22 |
+|  4 | Caca | caca@caca.com | 1995-05-28 | female | 2020-02-20 09:42:22 | Bandung | 2020-02-20 09:42:22 |
+|  5 | Deni | deni@deni.com | 1993-09-01 | male   | 2020-02-20 09:42:22 | Palu    | 2020-02-20 09:42:22 |
+|  6 | Euis | euis@euis.com | 1992-09-10 | female | 2020-02-20 09:42:22 | Jakarta | 2020-02-20 09:42:22 |
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+6 rows in set (0.00 sec)
+
+mysql> select * from karyawan order by id desc;
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+| id | name | email         | bod        | sex    | created_at          | kota    | last_update         |
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+|  6 | Euis | euis@euis.com | 1992-09-10 | female | 2020-02-20 09:42:22 | Jakarta | 2020-02-20 09:42:22 |
+|  5 | Deni | deni@deni.com | 1993-09-01 | male   | 2020-02-20 09:42:22 | Palu    | 2020-02-20 09:42:22 |
+|  4 | Caca | caca@caca.com | 1995-05-28 | female | 2020-02-20 09:42:22 | Bandung | 2020-02-20 09:42:22 |
+|  3 | Budi | budi@budi.com | 1991-01-21 | male   | 2020-02-20 09:42:22 | Bandung | 2020-02-20 09:42:22 |
+|  2 | Fafa | fafa@fafa.com | 1993-03-10 | male   | 2020-02-20 09:48:20 | Jakarta | 2020-02-20 09:48:20 |
+|  1 | Andi | andi@andi.com | 1992-02-20 | male   | 2020-02-20 09:36:58 | Jakarta | 2020-02-20 09:36:58 |
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+6 rows in set (0.00 sec)
+
+mysql> select id, name, kota from karyawan order by kota;
++----+------+---------+
+| id | name | kota    |
++----+------+---------+
+|  1 | Andi | Jakarta |
+|  2 | Fafa | Jakarta |
+|  6 | Euis | Jakarta |
+|  3 | Budi | Bandung |
+|  4 | Caca | Bandung |
+|  5 | Deni | Palu    |
++----+------+---------+
+6 rows in set (0.00 sec)
+
+mysql> select id, name, kota from karyawan order by kota, id desc;
++----+------+---------+
+| id | name | kota    |
++----+------+---------+
+|  6 | Euis | Jakarta |
+|  2 | Fafa | Jakarta |
+|  1 | Andi | Jakarta |
+|  4 | Caca | Bandung |
+|  3 | Budi | Bandung |
+|  5 | Deni | Palu    |
++----+------+---------+
+6 rows in set (0.00 sec)
+
+mysql> select * from karyawan group by kota;
++----+------+---------------+------------+------+---------------------+---------+---------------------+
+| id | name | email         | bod        | sex  | created_at          | kota    | last_update         |
++----+------+---------------+------------+------+---------------------+---------+---------------------+
+|  1 | Andi | andi@andi.com | 1992-02-20 | male | 2020-02-20 09:36:58 | Jakarta | 2020-02-20 09:36:58 |
+|  3 | Budi | budi@budi.com | 1991-01-21 | male | 2020-02-20 09:42:22 | Bandung | 2020-02-20 09:42:22 |
+|  5 | Deni | deni@deni.com | 1993-09-01 | male | 2020-02-20 09:42:22 | Palu    | 2020-02-20 09:42:22 |
++----+------+---------------+------------+------+---------------------+---------+---------------------+
+3 rows in set (0.00 sec)
+
+mysql> select kota from karyawan group by kota;
++---------+
+| kota    |
++---------+
+| Jakarta |
+| Bandung |
+| Palu    |
++---------+
+3 rows in set (0.00 sec)
+
+mysql> select count(*) from karyawan group by kota;
++----------+
+| count(*) |
++----------+
+|        3 |
+|        2 |
+|        1 |
++----------+
+3 rows in set (0.00 sec)
+
+mysql> select kota, count(*) from karyawan group by kota;
++---------+----------+
+| kota    | count(*) |
++---------+----------+
+| Jakarta |        3 |
+| Bandung |        2 |
+| Palu    |        1 |
++---------+----------+
+3 rows in set (0.00 sec)
+
+mysql> select sex, count(*) from karyawan group by sex;
++--------+----------+
+| sex    | count(*) |
++--------+----------+
+| male   |        4 |
+| female |        2 |
++--------+----------+
+2 rows in set (0.00 sec)
+
+mysql> select sex, count(*),count(*)/6 * 100 as persen from karyawan group by sex;
++--------+----------+---------+
+| sex    | count(*) | persen  |
++--------+----------+---------+
+| male   |        4 | 66.6667 |
+| female |        2 | 33.3333 |
++--------+----------+---------+
+2 rows in set (0.02 sec)
+
+mysql> select * from karyawan;
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+| id | name | email         | bod        | sex    | created_at          | kota    | last_update         |
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+|  1 | Andi | andi@andi.com | 1992-02-20 | male   | 2020-02-20 09:36:58 | Jakarta | 2020-02-20 09:36:58 |
+|  2 | Fafa | fafa@fafa.com | 1993-03-10 | male   | 2020-02-20 09:48:20 | Jakarta | 2020-02-20 09:48:20 |
+|  3 | Budi | budi@budi.com | 1991-01-21 | male   | 2020-02-20 09:42:22 | Bandung | 2020-02-20 09:42:22 |
+|  4 | Caca | caca@caca.com | 1995-05-28 | female | 2020-02-20 09:42:22 | Bandung | 2020-02-20 09:42:22 |
+|  5 | Deni | deni@deni.com | 1993-09-01 | male   | 2020-02-20 09:42:22 | Palu    | 2020-02-20 09:42:22 |
+|  6 | Euis | euis@euis.com | 1992-09-10 | female | 2020-02-20 09:42:22 | Jakarta | 2020-02-20 09:42:22 |
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+6 rows in set (0.00 sec)
+
+mysql> select now();
++---------------------+
+| now()               |
++---------------------+
+| 2020-02-20 10:34:23 |
++---------------------+
+1 row in set (0.00 sec)
+
+mysql> select date(now());
++-------------+
+| date(now()) |
++-------------+
+| 2020-02-20  |
++-------------+
+1 row in set (0.04 sec)
+
+mysql> select time(now());
++-------------+
+| time(now()) |
++-------------+
+| 10:35:19    |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select date_format(date(now()), '%d/%m/%y');
++--------------------------------------+
+| date_format(date(now()), '%d/%m/%y') |
++--------------------------------------+
+| 20/02/20                             |
++--------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> select date_format(date(now()), '%d/%m/%y') as hari ini ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ini' at line 1
+mysql> select date_format(date(now()), '%d/%m/%y') as hariIni ;
++----------+
+| hariIni  |
++----------+
+| 20/02/20 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select name, bod from karyawan where id = 1;
++------+------------+
+| name | bod        |
++------+------------+
+| Andi | 1992-02-20 |
++------+------------+
+1 row in set (0.00 sec)
+
+mysql> select name, bod from karyawan where id = 1 date_format(date(now()), '%d/%m/%y');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'date_format(date(now()), '%d/%m/%y')' at line 1
+mysql> select name, bod, date_format(date(now()), '%d/%m/%y') as bod2 from karyawan where id = 1;
++------+------------+----------+
+| name | bod        | bod2     |
++------+------------+----------+
+| Andi | 1992-02-20 | 20/02/20 |
++------+------------+----------+
+1 row in set (0.00 sec)
+
+mysql> select name, bod, date_format(date(now()), '%d/%m/%Y') as bod2 from karyawan where id = 1;
++------+------------+------------+
+| name | bod        | bod2       |
++------+------------+------------+
+| Andi | 1992-02-20 | 20/02/2020 |
++------+------------+------------+
+1 row in set (0.00 sec)
+
+mysql> select name, bod, date_format('%d/%m/%y') as bod2 from karyawan where id = 1;
+ERROR 1582 (42000): Incorrect parameter count in the call to native function 'date_format'
+mysql> select name, bod, date_format(bod,'%d/%m/%y') as bod2 from karyawan where id = 1;
++------+------------+----------+
+| name | bod        | bod2     |
++------+------------+----------+
+| Andi | 1992-02-20 | 20/02/92 |
++------+------------+----------+
+1 row in set (0.00 sec)
+
+mysql> select datediff('2020-12-01','2020-12-02) as x;
+    '> ^C
+mysql> select datediff('2020-12-01','2020-12-02') as x;
++------+
+| x    |
++------+
+|   -1 |
++------+
+1 row in set (0.02 sec)
+
+mysql> select datediff('2020-12-02','2020-12-01') as x;
++------+
+| x    |
++------+
+|    1 |
++------+
+1 row in set (0.00 sec)
+
+mysql> select datediff('2020-12-31','2020-01-01') as x;
++------+
+| x    |
++------+
+|  365 |
++------+
+1 row in set (0.00 sec)
+
+mysql> select datediff('2020-02-20','1992-02-20') as hari;
++-------+
+| hari  |
++-------+
+| 10227 |
++-------+
+1 row in set (0.00 sec)
+
+mysql> select datediff('2020-02-20','1992-02-20'), datediff('2020-02-20','1992-02-20')/ 365 as tahun;
++-------------------------------------+---------+
+| datediff('2020-02-20','1992-02-20') | tahun   |
++-------------------------------------+---------+
+|                               10227 | 28.0192 |
++-------------------------------------+---------+
+1 row in set (0.00 sec)
+
+mysql> select datediff('2020-02-20','1992-02-20') as hari, datediff('2020-02-20','1992-02-20')/ 365 as tahun;
++-------+---------+
+| hari  | tahun   |
++-------+---------+
+| 10227 | 28.0192 |
++-------+---------+
+1 row in set (0.00 sec)
+
+mysql> select 2020 - 1992;
++-------------+
+| 2020 - 1992 |
++-------------+
+|          28 |
++-------------+
+1 row in set (0.03 sec)
+
+mysql> select 2020 - 1992 as usiaAndi;
++----------+
+| usiaAndi |
++----------+
+|       28 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select name, bod from karyawan where id = 1, datediff(date(now()),'1992-02-20') as hari, datediff(year(now()),'1992') as tahun;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ', datediff(date(now()),'1992-02-20') as hari, datediff(year(now()),'1992') as ta' at line 1
+mysql> select name, bod from karyawan where id = 1, datediff('2020-02-20','1992-02-20') as hari, datediff('2020','1992') as tahun;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ', datediff('2020-02-20','1992-02-20') as hari, datediff('2020','1992') as tahun' at line 1
+mysql> select name, bod, datediff('2020-02-20','1992-02-20') as hari, datediff('2020','1992') as tahun from karyawan where id=1;
++------+------------+-------+-------+
+| name | bod        | hari  | tahun |
++------+------------+-------+-------+
+| Andi | 1992-02-20 | 10227 |  NULL |
++------+------------+-------+-------+
+1 row in set, 2 warnings (0.00 sec)
+
+mysql> select name, bod, datediff(date(now()),bod) as 'usia(hari)',year(now()) - year(bod) as 'usia(tahun)' from karyawan;
++------+------------+------------+-------------+
+| name | bod        | usia(hari) | usia(tahun) |
++------+------------+------------+-------------+
+| Andi | 1992-02-20 |      10227 |          28 |
+| Fafa | 1993-03-10 |       9843 |          27 |
+| Budi | 1991-01-21 |      10622 |          29 |
+| Caca | 1995-05-28 |       9034 |          25 |
+| Deni | 1993-09-01 |       9668 |          27 |
+| Euis | 1992-09-10 |      10024 |          28 |
++------+------------+------------+-------------+
+6 rows in set (0.03 sec)
+
+mysql> select name, bod, datediff(date(now()),bod) as 'usia(hari)',year(now()) - year(bod) as 'usia(tahun)', 55 - year(bod) from karyawan;
++------+------------+------------+-------------+----------------+
+| name | bod        | usia(hari) | usia(tahun) | 55 - year(bod) |
++------+------------+------------+-------------+----------------+
+| Andi | 1992-02-20 |      10227 |          28 |          -1937 |
+| Fafa | 1993-03-10 |       9843 |          27 |          -1938 |
+| Budi | 1991-01-21 |      10622 |          29 |          -1936 |
+| Caca | 1995-05-28 |       9034 |          25 |          -1940 |
+| Deni | 1993-09-01 |       9668 |          27 |          -1938 |
+| Euis | 1992-09-10 |      10024 |          28 |          -1937 |
++------+------------+------------+-------------+----------------+
+6 rows in set (0.00 sec)
+
+mysql> select name, bod, datediff(date(now()),bod) as 'usia(hari)',year(now()) - year(bod) as 'usia(tahun)', 55 - usia(tahun) from karyawan;
+ERROR 1305 (42000): FUNCTION ptxyz.usia does not exist
+mysql> select name, bod, datediff(date(now()),bod) as 'usia(hari)',year(now()) - year(bod) as 'usia(tahun)', 55 - 'usia(tahun)' from karyawan;
++------+------------+------------+-------------+--------------------+
+| name | bod        | usia(hari) | usia(tahun) | 55 - 'usia(tahun)' |
++------+------------+------------+-------------+--------------------+
+| Andi | 1992-02-20 |      10227 |          28 |                 55 |
+| Fafa | 1993-03-10 |       9843 |          27 |                 55 |
+| Budi | 1991-01-21 |      10622 |          29 |                 55 |
+| Caca | 1995-05-28 |       9034 |          25 |                 55 |
+| Deni | 1993-09-01 |       9668 |          27 |                 55 |
+| Euis | 1992-09-10 |      10024 |          28 |                 55 |
++------+------------+------------+-------------+--------------------+
+6 rows in set, 6 warnings (0.00 sec)
+
+mysql> select name, bod, datediff(date(now()),bod) as 'usia(hari)',year(now()) - year(bod) as 'usia(tahun)', 55 - (year(now()) - year(bod)) from karyawan;
++------+------------+------------+-------------+--------------------------------+
+| name | bod        | usia(hari) | usia(tahun) | 55 - (year(now()) - year(bod)) |
++------+------------+------------+-------------+--------------------------------+
+| Andi | 1992-02-20 |      10227 |          28 |                             27 |
+| Fafa | 1993-03-10 |       9843 |          27 |                             28 |
+| Budi | 1991-01-21 |      10622 |          29 |                             26 |
+| Caca | 1995-05-28 |       9034 |          25 |                             30 |
+| Deni | 1993-09-01 |       9668 |          27 |                             28 |
+| Euis | 1992-09-10 |      10024 |          28 |                             27 |
++------+------------+------------+-------------+--------------------------------+
+6 rows in set (0.00 sec)
+
+mysql> select name, bod, datediff(date(now()),bod) as 'usia(hari)',year(now()) - year(bod) as 'usia(tahun)', 55 - (year(now()) - year(bod)) as retire from karyawan;
++------+------------+------------+-------------+--------+
+| name | bod        | usia(hari) | usia(tahun) | retire |
++------+------------+------------+-------------+--------+
+| Andi | 1992-02-20 |      10227 |          28 |     27 |
+| Fafa | 1993-03-10 |       9843 |          27 |     28 |
+| Budi | 1991-01-21 |      10622 |          29 |     26 |
+| Caca | 1995-05-28 |       9034 |          25 |     30 |
+| Deni | 1993-09-01 |       9668 |          27 |     28 |
+| Euis | 1992-09-10 |      10024 |          28 |     27 |
++------+------------+------------+-------------+--------+
+6 rows in set (0.00 sec)
+
+mysql> select * from karyawan;
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+| id | name | email         | bod        | sex    | created_at          | kota    | last_update         |
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+|  1 | Andi | andi@andi.com | 1992-02-20 | male   | 2020-02-20 09:36:58 | Jakarta | 2020-02-20 09:36:58 |
+|  2 | Fafa | fafa@fafa.com | 1993-03-10 | male   | 2020-02-20 09:48:20 | Jakarta | 2020-02-20 09:48:20 |
+|  3 | Budi | budi@budi.com | 1991-01-21 | male   | 2020-02-20 09:42:22 | Bandung | 2020-02-20 09:42:22 |
+|  4 | Caca | caca@caca.com | 1995-05-28 | female | 2020-02-20 09:42:22 | Bandung | 2020-02-20 09:42:22 |
+|  5 | Deni | deni@deni.com | 1993-09-01 | male   | 2020-02-20 09:42:22 | Palu    | 2020-02-20 09:42:22 |
+|  6 | Euis | euis@euis.com | 1992-09-10 | female | 2020-02-20 09:42:22 | Jakarta | 2020-02-20 09:42:22 |
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+6 rows in set (0.00 sec)
+
+mysql> update karyawan set name = "Adi" where id = 1;
+Query OK, 1 row affected (0.15 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from karyawan;
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+| id | name | email         | bod        | sex    | created_at          | kota    | last_update         |
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+|  1 | Adi  | andi@andi.com | 1992-02-20 | male   | 2020-02-20 09:36:58 | Jakarta | 2020-02-20 11:15:35 |
+|  2 | Fafa | fafa@fafa.com | 1993-03-10 | male   | 2020-02-20 09:48:20 | Jakarta | 2020-02-20 09:48:20 |
+|  3 | Budi | budi@budi.com | 1991-01-21 | male   | 2020-02-20 09:42:22 | Bandung | 2020-02-20 09:42:22 |
+|  4 | Caca | caca@caca.com | 1995-05-28 | female | 2020-02-20 09:42:22 | Bandung | 2020-02-20 09:42:22 |
+|  5 | Deni | deni@deni.com | 1993-09-01 | male   | 2020-02-20 09:42:22 | Palu    | 2020-02-20 09:42:22 |
+|  6 | Euis | euis@euis.com | 1992-09-10 | female | 2020-02-20 09:42:22 | Jakarta | 2020-02-20 09:42:22 |
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+6 rows in set (0.00 sec)
+
+mysql> update karyawan set name = "Dini", sex = 'female' where id = 5;
+Query OK, 1 row affected (0.12 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from karyawan;
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+| id | name | email         | bod        | sex    | created_at          | kota    | last_update         |
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+|  1 | Adi  | andi@andi.com | 1992-02-20 | male   | 2020-02-20 09:36:58 | Jakarta | 2020-02-20 11:15:35 |
+|  2 | Fafa | fafa@fafa.com | 1993-03-10 | male   | 2020-02-20 09:48:20 | Jakarta | 2020-02-20 09:48:20 |
+|  3 | Budi | budi@budi.com | 1991-01-21 | male   | 2020-02-20 09:42:22 | Bandung | 2020-02-20 09:42:22 |
+|  4 | Caca | caca@caca.com | 1995-05-28 | female | 2020-02-20 09:42:22 | Bandung | 2020-02-20 09:42:22 |
+|  5 | Dini | deni@deni.com | 1993-09-01 | female | 2020-02-20 09:42:22 | Palu    | 2020-02-20 11:16:56 |
+|  6 | Euis | euis@euis.com | 1992-09-10 | female | 2020-02-20 09:42:22 | Jakarta | 2020-02-20 09:42:22 |
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+6 rows in set (0.00 sec)
+
+mysql> delete from karyawan where id = 6;
+Query OK, 1 row affected (0.25 sec)
+
+mysql> select * from karyawan;
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+| id | name | email         | bod        | sex    | created_at          | kota    | last_update         |
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+|  1 | Adi  | andi@andi.com | 1992-02-20 | male   | 2020-02-20 09:36:58 | Jakarta | 2020-02-20 11:15:35 |
+|  2 | Fafa | fafa@fafa.com | 1993-03-10 | male   | 2020-02-20 09:48:20 | Jakarta | 2020-02-20 09:48:20 |
+|  3 | Budi | budi@budi.com | 1991-01-21 | male   | 2020-02-20 09:42:22 | Bandung | 2020-02-20 09:42:22 |
+|  4 | Caca | caca@caca.com | 1995-05-28 | female | 2020-02-20 09:42:22 | Bandung | 2020-02-20 09:42:22 |
+|  5 | Dini | deni@deni.com | 1993-09-01 | female | 2020-02-20 09:42:22 | Palu    | 2020-02-20 11:16:56 |
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+5 rows in set (0.00 sec)
+
+mysql> describe karyawan;
++-------------+---------------------------------+------+-----+-------------------+-----------------------------------------------+
+| Field       | Type                            | Null | Key | Default           | Extra                                         |
++-------------+---------------------------------+------+-----+-------------------+-----------------------------------------------+
+| id          | bigint                          | NO   | PRI | NULL              | auto_increment                                |
+| name        | varchar(100)                    | NO   |     | No Name           |                                               |
+| email       | varchar(100)                    | NO   | UNI | NULL              |                                               |
+| bod         | date                            | YES  |     | NULL              |                                               |
+| sex         | enum('male','female')           | YES  |     | NULL              |                                               |
+| created_at  | timestamp                       | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED                             |
+| kota        | set('Jakarta','Bandung','Palu') | YES  |     | NULL              |                                               |
+| last_update | timestamp                       | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
++-------------+---------------------------------+------+-----+-------------------+-----------------------------------------------+
+8 rows in set (0.00 sec)
+
+mysql> alter table karyawan
+    -> rename column
+    -> name to nama;
+Query OK, 0 rows affected (0.56 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql>
+mysql> select * from karyawan;
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+| id | nama | email         | bod        | sex    | created_at          | kota    | last_update         |
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+|  1 | Adi  | andi@andi.com | 1992-02-20 | male   | 2020-02-20 09:36:58 | Jakarta | 2020-02-20 11:15:35 |
+|  2 | Fafa | fafa@fafa.com | 1993-03-10 | male   | 2020-02-20 09:48:20 | Jakarta | 2020-02-20 09:48:20 |
+|  3 | Budi | budi@budi.com | 1991-01-21 | male   | 2020-02-20 09:42:22 | Bandung | 2020-02-20 09:42:22 |
+|  4 | Caca | caca@caca.com | 1995-05-28 | female | 2020-02-20 09:42:22 | Bandung | 2020-02-20 09:42:22 |
+|  5 | Dini | deni@deni.com | 1993-09-01 | female | 2020-02-20 09:42:22 | Palu    | 2020-02-20 11:16:56 |
++----+------+---------------+------------+--------+---------------------+---------+---------------------+
+5 rows in set (0.00 sec)
+
+mysql> alter table karyawan
+    -> drop column email;
+Query OK, 0 rows affected (1.51 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from karyawan;
++----+------+------------+--------+---------------------+---------+---------------------+
+| id | nama | bod        | sex    | created_at          | kota    | last_update         |
++----+------+------------+--------+---------------------+---------+---------------------+
+|  1 | Adi  | 1992-02-20 | male   | 2020-02-20 09:36:58 | Jakarta | 2020-02-20 11:15:35 |
+|  2 | Fafa | 1993-03-10 | male   | 2020-02-20 09:48:20 | Jakarta | 2020-02-20 09:48:20 |
+|  3 | Budi | 1991-01-21 | male   | 2020-02-20 09:42:22 | Bandung | 2020-02-20 09:42:22 |
+|  4 | Caca | 1995-05-28 | female | 2020-02-20 09:42:22 | Bandung | 2020-02-20 09:42:22 |
+|  5 | Dini | 1993-09-01 | female | 2020-02-20 09:42:22 | Palu    | 2020-02-20 11:16:56 |
++----+------+------------+--------+---------------------+---------+---------------------+
+5 rows in set (0.00 sec)
+
+mysql> alter table karyawan
+    -> modify column
+    -> bod timestamp
+    -> after sex;
+Query OK, 5 rows affected (1.99 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from karyawan;
++----+------+--------+---------------------+---------------------+---------+---------------------+
+| id | nama | sex    | bod                 | created_at          | kota    | last_update         |
++----+------+--------+---------------------+---------------------+---------+---------------------+
+|  1 | Adi  | male   | 1992-02-20 00:00:00 | 2020-02-20 09:36:58 | Jakarta | 2020-02-20 11:15:35 |
+|  2 | Fafa | male   | 1993-03-10 00:00:00 | 2020-02-20 09:48:20 | Jakarta | 2020-02-20 09:48:20 |
+|  3 | Budi | male   | 1991-01-21 00:00:00 | 2020-02-20 09:42:22 | Bandung | 2020-02-20 09:42:22 |
+|  4 | Caca | female | 1995-05-28 00:00:00 | 2020-02-20 09:42:22 | Bandung | 2020-02-20 09:42:22 |
+|  5 | Dini | female | 1993-09-01 00:00:00 | 2020-02-20 09:42:22 | Palu    | 2020-02-20 11:16:56 |
++----+------+--------+---------------------+---------------------+---------+---------------------+
+5 rows in set (0.00 sec)
+
+mysql> alter table karyawan
+    -> add column
+    -> gaji int
+    -> default 5000000
+    -> after bod;
+Query OK, 0 rows affected (1.70 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from karyawan;
++----+------+--------+---------------------+---------+---------------------+---------+---------------------+
+| id | nama | sex    | bod                 | gaji    | created_at          | kota    | last_update         |
++----+------+--------+---------------------+---------+---------------------+---------+---------------------+
+|  1 | Adi  | male   | 1992-02-20 00:00:00 | 5000000 | 2020-02-20 09:36:58 | Jakarta | 2020-02-20 11:15:35 |
+|  2 | Fafa | male   | 1993-03-10 00:00:00 | 5000000 | 2020-02-20 09:48:20 | Jakarta | 2020-02-20 09:48:20 |
+|  3 | Budi | male   | 1991-01-21 00:00:00 | 5000000 | 2020-02-20 09:42:22 | Bandung | 2020-02-20 09:42:22 |
+|  4 | Caca | female | 1995-05-28 00:00:00 | 5000000 | 2020-02-20 09:42:22 | Bandung | 2020-02-20 09:42:22 |
+|  5 | Dini | female | 1993-09-01 00:00:00 | 5000000 | 2020-02-20 09:42:22 | Palu    | 2020-02-20 11:16:56 |
++----+------+--------+---------------------+---------+---------------------+---------+---------------------+
+5 rows in set (0.03 sec)
+
+mysql> alter table karyawan
+    -> add column
+    -> usia int
+    -> default 20
+    -> after sex;
+Query OK, 0 rows affected (1.91 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from karyawan;
++----+------+--------+------+---------------------+---------+---------------------+---------+---------------------+
+| id | nama | sex    | usia | bod                 | gaji    | created_at          | kota    | last_update         |
++----+------+--------+------+---------------------+---------+---------------------+---------+---------------------+
+|  1 | Adi  | male   |   20 | 1992-02-20 00:00:00 | 5000000 | 2020-02-20 09:36:58 | Jakarta | 2020-02-20 11:15:35 |
+|  2 | Fafa | male   |   20 | 1993-03-10 00:00:00 | 5000000 | 2020-02-20 09:48:20 | Jakarta | 2020-02-20 09:48:20 |
+|  3 | Budi | male   |   20 | 1991-01-21 00:00:00 | 5000000 | 2020-02-20 09:42:22 | Bandung | 2020-02-20 09:42:22 |
+|  4 | Caca | female |   20 | 1995-05-28 00:00:00 | 5000000 | 2020-02-20 09:42:22 | Bandung | 2020-02-20 09:42:22 |
+|  5 | Dini | female |   20 | 1993-09-01 00:00:00 | 5000000 | 2020-02-20 09:42:22 | Palu    | 2020-02-20 11:16:56 |
++----+------+--------+------+---------------------+---------+---------------------+---------+---------------------+
+5 rows in set (0.00 sec)
+
+mysql> alter table karyawan
+    -> drop column usia
+    -> ^C
+mysql> alter table karyawan
+    -> drop column usia;
+Query OK, 0 rows affected (1.49 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from karyawan;
++----+------+--------+---------------------+---------+---------------------+---------+---------------------+
+| id | nama | sex    | bod                 | gaji    | created_at          | kota    | last_update         |
++----+------+--------+---------------------+---------+---------------------+---------+---------------------+
+|  1 | Adi  | male   | 1992-02-20 00:00:00 | 5000000 | 2020-02-20 09:36:58 | Jakarta | 2020-02-20 11:15:35 |
+|  2 | Fafa | male   | 1993-03-10 00:00:00 | 5000000 | 2020-02-20 09:48:20 | Jakarta | 2020-02-20 09:48:20 |
+|  3 | Budi | male   | 1991-01-21 00:00:00 | 5000000 | 2020-02-20 09:42:22 | Bandung | 2020-02-20 09:42:22 |
+|  4 | Caca | female | 1995-05-28 00:00:00 | 5000000 | 2020-02-20 09:42:22 | Bandung | 2020-02-20 09:42:22 |
+|  5 | Dini | female | 1993-09-01 00:00:00 | 5000000 | 2020-02-20 09:42:22 | Palu    | 2020-02-20 11:16:56 |
++----+------+--------+---------------------+---------+---------------------+---------+---------------------+
+5 rows in set (0.00 sec)
+
+mysql> alter table karyawan
+    -> add column
+    -> usia int
+    -> default year(now())-year(bod)
+    -> after sex;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'year(now())-year(bod)
+after sex' at line 4
+mysql> alter table karyawan
+    -> add column
+    -> usia int
+    -> default (year(now())-year(bod))
+    -> after sex;
+Query OK, 5 rows affected (1.92 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from karyawan;
++----+------+--------+------+---------------------+---------+---------------------+---------+---------------------+
+| id | nama | sex    | usia | bod                 | gaji    | created_at          | kota    | last_update         |
++----+------+--------+------+---------------------+---------+---------------------+---------+---------------------+
+|  1 | Adi  | male   |   28 | 1992-02-20 00:00:00 | 5000000 | 2020-02-20 09:36:58 | Jakarta | 2020-02-20 11:15:35 |
+|  2 | Fafa | male   |   27 | 1993-03-10 00:00:00 | 5000000 | 2020-02-20 09:48:20 | Jakarta | 2020-02-20 09:48:20 |
+|  3 | Budi | male   |   29 | 1991-01-21 00:00:00 | 5000000 | 2020-02-20 09:42:22 | Bandung | 2020-02-20 09:42:22 |
+|  4 | Caca | female |   25 | 1995-05-28 00:00:00 | 5000000 | 2020-02-20 09:42:22 | Bandung | 2020-02-20 09:42:22 |
+|  5 | Dini | female |   27 | 1993-09-01 00:00:00 | 5000000 | 2020-02-20 09:42:22 | Palu    | 2020-02-20 11:16:56 |
++----+------+--------+------+---------------------+---------+---------------------+---------+---------------------+
+5 rows in set (0.00 sec)
+
+mysql> alter table karyawan
+    -> add column
+    -> usia2 int
+    -> after usia;
+Query OK, 0 rows affected (1.39 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> update karyawan
+    -> set usia = year(now()) - year(bod);
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 5  Changed: 0  Warnings: 0
+
+mysql> select * from karyawan;
++----+------+--------+------+-------+---------------------+---------+---------------------+---------+---------------------+
+| id | nama | sex    | usia | usia2 | bod                 | gaji    | created_at          | kota    | last_update         |
++----+------+--------+------+-------+---------------------+---------+---------------------+---------+---------------------+
+|  1 | Adi  | male   |   28 |  NULL | 1992-02-20 00:00:00 | 5000000 | 2020-02-20 09:36:58 | Jakarta | 2020-02-20 11:15:35 |
+|  2 | Fafa | male   |   27 |  NULL | 1993-03-10 00:00:00 | 5000000 | 2020-02-20 09:48:20 | Jakarta | 2020-02-20 09:48:20 |
+|  3 | Budi | male   |   29 |  NULL | 1991-01-21 00:00:00 | 5000000 | 2020-02-20 09:42:22 | Bandung | 2020-02-20 09:42:22 |
+|  4 | Caca | female |   25 |  NULL | 1995-05-28 00:00:00 | 5000000 | 2020-02-20 09:42:22 | Bandung | 2020-02-20 09:42:22 |
+|  5 | Dini | female |   27 |  NULL | 1993-09-01 00:00:00 | 5000000 | 2020-02-20 09:42:22 | Palu    | 2020-02-20 11:16:56 |
++----+------+--------+------+-------+---------------------+---------+---------------------+---------+---------------------+
+5 rows in set (0.00 sec)
+
+mysql> update karyawan
+    -> set usia2 = year(now()) - year(bod);
+Query OK, 5 rows affected (0.14 sec)
+Rows matched: 5  Changed: 5  Warnings: 0
+
+mysql> select * from karyawan;
++----+------+--------+------+-------+---------------------+---------+---------------------+---------+---------------------+
+| id | nama | sex    | usia | usia2 | bod                 | gaji    | created_at          | kota    | last_update         |
++----+------+--------+------+-------+---------------------+---------+---------------------+---------+---------------------+
+|  1 | Adi  | male   |   28 |    28 | 1992-02-20 00:00:00 | 5000000 | 2020-02-20 09:36:58 | Jakarta | 2020-02-20 11:48:57 |
+|  2 | Fafa | male   |   27 |    27 | 1993-03-10 00:00:00 | 5000000 | 2020-02-20 09:48:20 | Jakarta | 2020-02-20 11:48:57 |
+|  3 | Budi | male   |   29 |    29 | 1991-01-21 00:00:00 | 5000000 | 2020-02-20 09:42:22 | Bandung | 2020-02-20 11:48:57 |
+|  4 | Caca | female |   25 |    25 | 1995-05-28 00:00:00 | 5000000 | 2020-02-20 09:42:22 | Bandung | 2020-02-20 11:48:57 |
+|  5 | Dini | female |   27 |    27 | 1993-09-01 00:00:00 | 5000000 | 2020-02-20 09:42:22 | Palu    | 2020-02-20 11:48:57 |
++----+------+--------+------+-------+---------------------+---------+---------------------+---------+---------------------+
+5 rows in set (0.00 sec)
+
+mysql> select min(usia), max(usia) from karyawan;
++-----------+-----------+
+| min(usia) | max(usia) |
++-----------+-----------+
+|        25 |        29 |
++-----------+-----------+
+1 row in set (0.00 sec)
+
+mysql> select id, nama, usia from karyawan where where usia =
+    -> (select min(usia) from karyawan);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where usia = 
+(select min(usia) from karyawan)' at line 1
+mysql> select id, nama, usia from karyawan where usia =
+    -> (select min(usia) from karyawan);
++----+------+------+
+| id | nama | usia |
++----+------+------+
+|  4 | Caca |   25 |
++----+------+------+
+1 row in set (0.00 sec)
+
+mysql> select avg(usia) from karyawan where kota = 'bandung';
++-----------+
+| avg(usia) |
++-----------+
+|   27.0000 |
++-----------+
+1 row in set (0.00 sec)
+
+mysql> select avg(usia) from karyawan where kota = 'jakarta';
++-----------+
+| avg(usia) |
++-----------+
+|   27.5000 |
++-----------+
+1 row in set (0.00 sec)
+
+mysql> select nama, usia from karyawan where kota = 'bandung',usia > (select avg(usia) from karyawan where kota = 'jakarta');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',usia > (select avg(usia) from karyawan where kota = 'jakarta')' at line 1
+mysql> select nama, usia from karyawan where kota = 'bandung',and usia > (select avg(usia) from karyawan where kota = 'jakarta');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',and usia > (select avg(usia) from karyawan where kota = 'jakarta')' at line 1
+mysql> select nama, usia from karyawan where kota = 'bandung'and usia > (select avg(usia) from karyawan where kota = 'jakarta');
++------+------+
+| nama | usia |
++------+------+
+| Budi |   29 |
++------+------+
+1 row in set (0.00 sec)
+
+mysql>

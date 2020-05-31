@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- external css-->
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='3001.css')}}">
+    <!-- internal css-->
+    <style>
+        .usia {
+            color:aqua
+        }
+    </style>
+</head>
+<body>
+    <!-- inline css-->
+    <h1 style="color:palevioletred">Nama = {{ y['nama'] }}</h1>
+    <h1 class="usia">usia = {{ y['usia'] }}</h1>
+
+    <hr> yang berada dalam kurung kurawal merupakan kode python yang diinginkan bila menggunakan flask <br>
+</body>
+</html>
